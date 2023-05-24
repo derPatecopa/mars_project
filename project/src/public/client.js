@@ -1,4 +1,4 @@
-import { port } from "../server/index"
+const PORT = 3000;
 let store = {
     user: { name: "Student" },
     apod: '',
@@ -98,7 +98,7 @@ const ImageOfTheDay = (apod) => {
 const getImageOfTheDay = (state) => {
     let { apod } = state
 
-    const data = fetch(`http://localhost:${port}/apod`)
+    const data = fetch(`http://localhost:${PORT}/apod`)
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
 
