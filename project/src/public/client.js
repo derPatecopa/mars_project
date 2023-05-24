@@ -104,3 +104,7 @@ const getImageOfTheDay = (state) => {
 
     return data
 }
+
+const getRoverData = (state) => {
+   
+}
