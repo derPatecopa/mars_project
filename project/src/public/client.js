@@ -105,6 +105,33 @@ const getImageOfTheDay = (state) => {
     return data
 }
 
-const getRoverData = (state) => {
-   
+async function getRoverData () {
+   try{
+    //get list of rovers
+    const response = await fetch(`http://localhost:${PORT}/rovers`);
+    const rovers = await response.json();
+
+    //get data for each rover
+    const roverData = await Promise.all(rovers.map(async(rover)=> {
+        const roverResponse = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${rover.name}?api_key=${process.env.API_KEY}`);
+        const roverData = await roverResponse.json();
+        const latestPhotos = rover.data.latest_photos.map(photo => ({
+            url: photo.img_src,
+            earth_date: photo.earth_date
+        }));
+        return {
+            name: rover.name,
+            launchDate: roverData.launch_date,
+            landingDate: roverData.landing_date,
+            status: roverData.status,
+            latestPhotos,
+            latestPhotoDate: latestPhotos[0]?.earth_date
+        }
+    }));
+
+    //update state with rover data using updateStore function
+    updateStore({...state, roverData});
+   } catch (err) {
+    console.log('error:', err);
+   }
 }
