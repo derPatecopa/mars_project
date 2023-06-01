@@ -17,7 +17,6 @@
 //     root.innerHTML = App(state)
 // }
 
-
 // // create content
 // const App = (state) => {
 //     let { rovers, apod } = state
@@ -104,16 +103,15 @@
 
 //     return data
 // }
-// 
-    
+//
+
 // }
 
 // console.log(store.rovers[0])
 
-
 // -------------------------------------------------- first approach
 
-// content 
+// content
 
 // const App = (state) => {
 //     // same like let rovers = state.rovers;
@@ -123,7 +121,7 @@
 //     <header></header>
 //     <main>
 //         <section>
-//             <h3>These are the rover Facts: 
+//             <h3>These are the rover Facts:
 //             ${roverFacts(state)}
 //             </h3>
 //         </section>
@@ -138,24 +136,24 @@
 //         return `
 //         ${state.rovers.map(rovers => `<ul>
 //             <li>
-//             Name: ${rovers.name} 
+//             Name: ${rovers.name}
 //             <ul>
 //             <li>
-//             Landing Date: ${rovers.landing_date} 
+//             Landing Date: ${rovers.landing_date}
 //             </li>
 //             <li>
-//             Launch Date: ${rovers.launch_date} 
+//             Launch Date: ${rovers.launch_date}
 //             </li>
 //             <li>
 //             Mission Status: ${rovers.status}
 //             </li>
-            
+
 //             </ul>
 //             </li>
 //         </ul>`).join('')}
 //       `
 //     }
-   
+
 // }
 
 // const roverInfos = async (state) => {
@@ -202,7 +200,7 @@
 // }
 
 // {/* <li>
-//             Latest Three Photos: 
-//             ${rovers.latest_photos.map(photo => 
+//             Latest Three Photos:
+//             ${rovers.latest_photos.map(photo =>
 //                 `<img src = "${photo}" alt="" width="100" height="100"`)}
 //             </li> */}
