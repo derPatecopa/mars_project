@@ -3,7 +3,7 @@ const PORT = 3000;
 let store = Immutable.Map({
   user: Immutable.Map({ name: "Student" }),
   apod: "",
-  rovers: Immutable.List(["curiosity", {"opportunity": {'latest_photos': [{'key1': 'value1'}, {'key2':'value2'}]}}, "spirit"]),
+  rovers: Immutable.List(["curiosity", "opportunity", "spirit"]),
   currentRover: "none",
 });
 
@@ -23,13 +23,21 @@ const render = async (root, state) => {
 // create content
 
 const App = (state) => {
-  return `<p>${store.get("rovers").get(0)}</p>`;
+  return `<p>${state.getIn(['rovers', 0]).curiosity.latest_photos[0].rover.name}</p>`;
 };
 
 // listening for load event because page should load before any JS is called
-window.addEventListener("load", () => {
-  render(root, store);
-});
+window.addEventListener("load", async () => {
+  await Promise.all(
+    store.get('rovers').map(async (roverName) => {
+      const roverData = await getRoverInfo(roverName);
+      store = store.setIn(['rovers', roverName], roverData);
+    })
+  );
+  console.log(store.getIn(['rovers',0]))
+  render(root, store)
+}
+);
 
 // ------------------------------------------------------  COMPONENTS
 
@@ -63,9 +71,9 @@ const getRoverInfo = async (roverName) => {
   return data;
 };
 
-getRoverInfo(store.get('rovers').get(0)).then(() => {
-  console.log(store.getIn(['rovers', 0]).curiosity.latest_photos[0].id);
-});
+// getRoverInfo(store.get('rovers').get(0)).then(() => {
+//   console.log(store.getIn(['rovers', 0]).curiosity.latest_photos[0].id);
+// });
 
 
 
