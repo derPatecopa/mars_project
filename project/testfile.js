@@ -4,7 +4,7 @@ const PORT = 3000;
 let store = Map({
     user: Map({ name: 'Student' }),
     apod: '',
-    rovers: List(['curiosity', 'opportunity', 'spirit']),
+    rovers: List([{'curiosity': {'id':12345}}, 'opportunity', 'spirit']),
     currentRover: 'none'
 })
 
@@ -37,6 +37,11 @@ const getRoverInfo = async (roverName) => {
     return data;
   };
 
-  getRoverInfo(store.get('rovers').get(0)).then(() => {
-    console.log(store.getIn(['rovers',0]));
+//   getRoverInfo(store.get('rovers').get(0)).then(() => {
+//     console.log(store.getIn(['rovers',0]));
+//   });
+
+//to get data added to the list later on, you can just use the usual dot notaion
+getRoverInfo(store.get('rovers').get(0)).then(() => {
+    console.log(store.getIn(['rovers', 0]).curiosity.latest_photos[0].id);
   });

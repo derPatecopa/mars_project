@@ -3,7 +3,7 @@ const PORT = 3000;
 let store = Immutable.Map({
   user: Immutable.Map({ name: "Student" }),
   apod: "",
-  rovers: Immutable.List(["curiosity", "opportunity", "spirit"]),
+  rovers: Immutable.List(["curiosity", {"opportunity": {'latest_photos': [{'key1': 'value1'}, {'key2':'value2'}]}}, "spirit"]),
   currentRover: "none",
 });
 
@@ -64,8 +64,9 @@ const getRoverInfo = async (roverName) => {
 };
 
 getRoverInfo(store.get('rovers').get(0)).then(() => {
-  console.log(store.getIn(['rovers', 0]));
+  console.log(store.getIn(['rovers', 0]).curiosity.latest_photos[0].id);
 });
+
 
 
 
