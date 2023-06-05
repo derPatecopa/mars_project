@@ -31,7 +31,6 @@ const App = (state) => {
   }</p>
   ${infoText(state)}
   <img src="${state.getIn(["rovers", 0]).curiosity.latest_photos[0].img_src}" width="500" height="600">
-  ${renderDropdown()}
 `;
 };
 
@@ -71,16 +70,6 @@ const infoText = () => {
 }
 
 
-const renderDropdown = () => {
-  return `
-  <label for="rover-names">Choose a Rover:</label> 
-  <select name="rover-names" id="rover-names"> 
-      <option value="curiosity">Curiosity</option> 
-      <option value="opportunity">Opportunity</option> 
-      <option value="spirit">Spirit</option> 
-  </select>
-`
-}
 
 
 // ------------------------------------------------------  API CALLS
