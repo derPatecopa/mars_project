@@ -4,7 +4,7 @@ let store = Immutable.Map({
   user: Immutable.Map({ name: "Student" }),
   apod: "",
   rovers: Immutable.List(["curiosity", "opportunity", "spirit"]),
-  currentRover: "none",
+  selectedRover: null,
 });
 
 // add our markup to the page
@@ -29,7 +29,10 @@ const App = (state) => {
   return `<p>${
     state.getIn(["rovers", 0]).curiosity.latest_photos[0].rover.name
   }</p>
-  <img src="${state.getIn(["rovers", 0]).curiosity.latest_photos[0].img_src}" width="500" height="600">`;
+  ${infoText(state)}
+  <img src="${state.getIn(["rovers", 0]).curiosity.latest_photos[0].img_src}" width="500" height="600">
+  ${renderDropdown()}
+`;
 };
 
 // listening for load event because page should load before any JS is called
@@ -47,6 +50,37 @@ window.addEventListener("load", async () => {
 
 // ------------------------------------------------------  COMPONENTS
 
+const infoText = () => {
+  return `
+  <header></header>
+          <main>
+              <section>
+                  <h3>Put things on the page!</h3>
+                  <p>Here is an example section.</p>
+                  <p>
+                      One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of
+                      the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
+                      This endpoint structures the APOD imagery and associated metadata so that it can be repurposed for other
+                      applications. In addition, if the concept_tags parameter is set to True, then keywords derived from the image
+                      explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
+                      but generally help with discoverability of relevant imagery.
+                  </p>
+              </section>
+          </main>
+  `
+}
+
+
+const renderDropdown = () => {
+  return `
+  <label for="rover-names">Choose a Rover:</label> 
+  <select name="rover-names" id="rover-names"> 
+      <option value="curiosity">Curiosity</option> 
+      <option value="opportunity">Opportunity</option> 
+      <option value="spirit">Spirit</option> 
+  </select>
+`
+}
 
 
 // ------------------------------------------------------  API CALLS
