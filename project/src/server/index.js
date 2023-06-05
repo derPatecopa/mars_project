@@ -49,17 +49,5 @@ app.get("/rovers/:rover_name", async (req, res) => {
   }
 });
 
-// app.get('/rovers/:rover_name/:max_sol/latest_photos', async (req,res) => {
-//     const {rover_name} = req.params;
-//     const {max_sol} = req.params;
-//     try {
-//         const latestPhotosResponse = await fetch (`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover_name}/photos?sol=${max_sol}&api_key=${process.env.API_KEY}`);
-//         const latestPhotos = await latestPhotosResponse.json();
-//         res.send(latestPhotos);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send({error: 'Unable to retrieve latest photos'});
-//     }
-// });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
