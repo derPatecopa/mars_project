@@ -22,22 +22,28 @@ const render = async (root, state) => {
 
 // create content
 const App = (state) => {
-    // Convert ImmutableJS List to JS array
     let rovers  = state.get('rovers').toJS();  
 
     return `
         <header></header>
         <main>
-            ${Greeting(state.getIn(['user', 'name']))}
-            ${roverData(state)}
+            <div class="greeting-section">
+                ${Greeting(state.getIn(['user', 'name']))}
+            </div>
             <section>
-                <h3>Choose a Mars Rover!</h3>
-                ${rovers.map(rover => `<button onClick="getRoverData('${rover}')">${rover}</button>`).join('')}
+                <h3 class="choose-rover-header">Choose a Mars Rover!</h3>
+                <div class="button-container">
+                  ${rovers.map(rover => `<button class="rover-button" onClick="getRoverData('${rover}')">${rover}</button>`).join('')}
+                </div>
             </section>
+            <div class="rover-content">
+              ${roverData(state)}
+            </div>
         </main>
         <footer></footer>
     `
 }
+
 
 
 // listening for load event because page should load before any JS is called
@@ -68,14 +74,20 @@ const roverData = (state) => {
     if (roverData) {
         console.log(roverData)
         return `
-            <p> Name: ${roverData.latest_photos[0].rover.name}</p>
-            <p> Launch Date: ${roverData.latest_photos[0].rover.launch_date}</p>
-            <p> Landing Date: ${roverData.latest_photos[0].rover.landing_date}</p>
-            <p> Status: ${roverData.latest_photos[0].rover.status}</p>
-            <p> Most recent Photo: 
-                <img src="${roverData.latest_photos[0].img_src}"
-            </p>
-            <p> Most recent Photo Date: ${roverData.latest_photos[0].earth_date}</p>
+            <div class="rover-container">
+                <div class="rover-header">
+                    <h2>${roverData.latest_photos[0].rover.name}</h2>
+                </div>
+                <div class="rover-info">
+                    <p><span>Launch Date:</span> ${roverData.latest_photos[0].rover.launch_date}</p>
+                    <p><span>Landing Date:</span> ${roverData.latest_photos[0].rover.landing_date}</p>
+                    <p><span>Status:</span> ${roverData.latest_photos[0].rover.status}</p>
+                    <p><span>Most recent Photo Date:</span> ${roverData.latest_photos[0].earth_date}</p>
+                </div>
+                <div class="rover-photo">
+                    <img src="${roverData.latest_photos[0].img_src}" alt="Rover photo">
+                </div>
+            </div>
         `
     }
 
@@ -85,6 +97,7 @@ const roverData = (state) => {
 // ------------------------------------------------------  API CALLS
 
 const getRoverData = (rover) => {
+    //fetching data from API and convert it into json format
     fetch(`http://localhost:3000/rovers/${rover}`)
         .then(res => res.json())
         .then(data => {
