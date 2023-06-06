@@ -72,7 +72,7 @@ const roverData = (state) => {
     let roverData = state.getIn(['roverData', roverName]);
 
     if (roverData) {
-        console.log(roverData)
+        //console.log(roverData)
         return `
             <div class="rover-container">
                 <div class="rover-header">
@@ -107,5 +107,5 @@ const getRoverData = (rover) => {
                 currentRover: rover
             });
         });
-        console.log(store.get("currentRover"))
+        //console.log(store.get("currentRover"))
 }
