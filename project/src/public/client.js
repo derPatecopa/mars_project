@@ -29,6 +29,7 @@ const App = (state) => {
         <header></header>
         <main>
             ${Greeting(state.getIn(['user', 'name']))}
+            ${roverData(state)}
             <section>
                 <h3>Choose a Mars Rover!</h3>
                 ${rovers.map(rover => `<button onClick="getRoverData('${rover}')">${rover}</button>`).join('')}
@@ -60,6 +61,38 @@ const Greeting = (name) => {
          `;
 };
 
+const roverData = (state) => {
+    let roverName = state.get('currentRover');
+    let roverData = state.getIn(['roverData', roverName]);
+
+    if (roverData) {
+        console.log(roverData)
+        return `
+            <p> Name: ${roverData.latest_photos[0].rover.name}</p>
+            <p> Launch Date: ${roverData.latest_photos[0].rover.launch_date}</p>
+            <p> Landing Date: ${roverData.latest_photos[0].rover.landing_date}</p>
+            <p> Status: ${roverData.latest_photos[0].rover.status}</p>
+            <p> Most recent Photo: 
+                <img src="${roverData.latest_photos[0].img_src}"
+            </p>
+            <p> Most recent Photo Date: ${roverData.latest_photos[0].earth_date}</p>
+        `
+    }
+
+    return `<p>Please click a rover to get it's details (it can take a couple of seconds)</p>`;
+}
+
 // ------------------------------------------------------  API CALLS
 
-// Example API call
+const getRoverData = (rover) => {
+    fetch(`http://localhost:3000/rovers/${rover}`)
+        .then(res => res.json())
+        .then(data => {
+            //Update store with the new rover data and currentRover
+            updateStore(store, {
+                roverData: store.get('roverData').set(rover, data),
+                currentRover: rover
+            });
+        });
+        console.log(store.get("currentRover"))
+}
